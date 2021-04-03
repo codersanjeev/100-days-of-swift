@@ -8,12 +8,10 @@
 import UIKit
 
 class ViewController: UITableViewController {
-	
 	private var pictures = [String]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		let fileManager = FileManager.default
 		guard let path = Bundle.main.resourcePath else { return }
 		let items = try! fileManager.contentsOfDirectory(atPath: path)
@@ -34,5 +32,10 @@ class ViewController: UITableViewController {
 		return cell
 	}
 	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if let detailsViewController = storyboard?.instantiateViewController(identifier: "Detail") as? DetailViewController {
+			detailsViewController.selectedImage = pictures[indexPath.row]
+			navigationController?.pushViewController(detailsViewController, animated: true)
+		}
+	}
 }
-
