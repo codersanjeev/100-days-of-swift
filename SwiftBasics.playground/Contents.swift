@@ -155,3 +155,67 @@ repeat {
 	idx -= 1
 } while idx > 0
 
+// Functions
+func getName() -> (first: String, last: String) {
+	return ("Sanjeev", "Sharma")
+}
+
+print(getName().first)
+print(getName().1)
+
+// Closures: Function without name / Unnamed Function
+func lessThan(a: Int, b: Int) -> Bool {
+	return a < b
+}
+
+var c1 = lessThan
+c1(2, 3)
+var c2 = { (a: Int, b: Int) -> Bool in
+	return a < b
+}
+c2(2, 3)
+
+// Capture by Value and Capture by Reference
+var someValue = 200
+/// This is capture by reference
+var closure = { print(someValue) }
+closure()
+someValue = 400
+closure()
+
+/// This is capture by value
+var closureTwo = { [someValue] in
+	print(someValue)
+}
+closureTwo()
+someValue = 200
+closureTwo()
+
+/// Class Initialization
+// init
+// deinit
+// convenience init
+
+/// ARC and Memory Leak
+
+class ViewController {
+	var viewModel: ViewModel?
+}
+
+class ViewModel {
+	var viewController: ViewController?
+}
+
+func doSomething() {
+	let vc = ViewController()
+	let vm = ViewModel()
+	vc.viewModel = vm
+	vm.viewController = vc
+	// at the end of this function, both vc and vm will remain in memory due
+	// to reference cycle.
+}
+
+
+/// How to prevent reference cycle.
+// make the reference weak or unowned, this way ARC will not count these references
+// while destroying objects
